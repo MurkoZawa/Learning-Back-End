@@ -1,0 +1,3 @@
+1) Creare .js con PUT, POST, GET, DELETE. POST serve per inserire un elemento, PUT per modificarlo, GET per prelevarlo, DELETE per cancellarlo.
+2) Connettersi a MongoDB specificando la corretta connessione e aprire un terminale immettendo node todo.js. Per osservare modifiche, premere su Refresh documents.
+3) Aprire un altro terminale per fare le curl. Le richieste HTTP e le POST verranno visualizzate nei documents.
