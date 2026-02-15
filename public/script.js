@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loginLink) loginLink.style.display = "inline-block";
     }
 
-    if (!token && window.location.pathname !== "/login.html") {
+    if (!token && window.location.pathname !== "/login.html" && window.location.pathname !== "/index.html" && window.location.pathname !== "/about.html") {
         window.location.href = "login.html";
     }
 

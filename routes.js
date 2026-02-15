@@ -71,10 +71,14 @@ router.get('/api/reviews', authMiddleware, async (req, res) => {
     try {
         const db = getDB();
         const reviews = await db.collection('reviews')
-            .find({ user: new ObjectId(req.user.userId) })
+            .find({})
+            .sort({ createdAt: -1 })
             .toArray();
+
         res.json(reviews);
-    } catch (err) { res.status(500).json({ message: err.message }); }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 router.post('/api/reviews', authMiddleware, async (req, res) => {

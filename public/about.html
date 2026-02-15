@@ -16,7 +16,7 @@
 	</nav>
 
     <div class="container">
-        <h1>About This Mini Website</h1>
+        <h1>Info su questo mini-sito</h1>
         <p>
             Benvenuto! Questo sito dimostra un backend semplice ma completo con:
         </p>
@@ -33,14 +33,5 @@
 
     <!-- SCRIPT -->
     <script src="script.js"></script>
-    <script>
-        // Protezione pagina: redirect se non loggato
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                window.location.href = "login.html";
-            }
-        });
-    </script>
 </body>
 </html>
