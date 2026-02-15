@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+	<nav>
+		<a href="index.html">Home</a>
+		<a href="reviews.html">Reviews</a>
+		<a href="tasks.html">Tasks</a>
+		<a href="login.html" id="loginLink">Login</a>
+		<button id="logoutBtn" style="display:none;">Logout</button>
+	</nav>
+
+    <div class="container">
+        <h1>About This Mini Website</h1>
+        <p>
+            Benvenuto! Questo sito dimostra un backend semplice ma completo con:
+        </p>
+        <ul>
+            <li>Registrazione e login con JWT</li>
+            <li>Gestione tasks personali</li>
+            <li>Sezione recensioni salvate sul database</li>
+            <li>Accesso protetto e logout funzionante</li>
+        </ul>
+        <p>
+            Tutti i dati vengono salvati nel database MongoDB <code>learnbackend</code>.
+        </p>
+    </div>
+
+    <!-- SCRIPT -->
+    <script src="script.js"></script>
+    <script>
+        // Protezione pagina: redirect se non loggato
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>

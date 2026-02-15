@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reviews - LearnBack-End</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div class="nav-left">
+            <h1>Learn-BackEnd</h1>
+        </div>
+    <div>
+        <a href="index.html">Home</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="login.html">Login</a>
+		<button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h2>Lascia una recensione</h2>
+
+    <form id="reviewForm">
+        <input type="text" id="reviewName" placeholder="Il tuo nome" required>
+        <textarea id="reviewText" placeholder="Scrivi la tua recensione" required></textarea>
+        <button type="submit">Invia recensione</button>
+    </form>
+	<br>
+    <h2>Recensioni</h2>
+    <div id="reviewsList"></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

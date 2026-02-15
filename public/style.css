@@ -1,110 +1,194 @@
-/* Reset base */
+/* ==========================
+   FONT & RESET
+========================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    height: 100vh;
+    background: #f5f6fa;
+    color: #2f3640;
+    line-height: 1.6;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    color: #333;
+    background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 0 0 15px 15px;
 }
 
-/* Container centrale */
-.container {
-    background-color: #ffffffcc; /* leggermente trasparente */
-    padding: 40px;
-    border-radius: 12px;
-    width: 350px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+nav a, nav button {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-.container:hover {
-    transform: translateY(-5px);
+nav a:hover, nav button:hover {
+    color: #ffeaa7;
 }
 
-h2 {
+nav button {
+    background: #00cec9;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+nav button:hover {
+    background: #0984e3;
+}
+
+/* ==========================
+   HERO / HEADER
+========================== */
+.hero {
     text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
-    letter-spacing: 0.5px;
+    padding: 80px 20px;
+    background: linear-gradient(to right, #74b9ff, #a29bfe);
+    color: #fff;
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* Form e input */
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+/* ==========================
+   CONTAINER
+========================== */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+/* ==========================
+   FORMS
+========================== */
 form {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
 }
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
     padding: 12px 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    transition: all 0.2s ease;
+    border: 2px solid #dfe6e9;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
+    border-color: #6c5ce7;
     outline: none;
-    border-color: #2575fc;
-    box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
 }
 
-/* Pulsanti */
-button {
-    padding: 12px;
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button[type="submit"] {
+    background: #6c5ce7;
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    background: #2575fc;
-    color: white;
-    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-button:hover {
-    background: #6a11cb;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+button[type="submit"]:hover {
+    background: #a29bfe;
 }
 
-/* Separazione tra Register e Login */
-form + form {
-    margin-top: 30px;
-}
-
-/* Messaggi alert */
-.alert {
-    text-align: center;
-    padding: 10px;
+/* ==========================
+   HEADINGS
+========================== */
+h1, h2 {
+    color: #2d3436;
     margin-bottom: 15px;
-    border-radius: 6px;
-    font-size: 14px;
 }
 
-.alert.success {
-    background-color: #d4edda;
-    color: #155724;
+h2 {
+    font-size: 1.8rem;
 }
 
-.alert.error {
-    background-color: #f8d7da;
-    color: #721c24;
+/* ==========================
+   LISTS & REVIEWS
+========================== */
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
 }
 
-/* Responsive */
-@media (max-width: 400px) {
-    .container {
-        width: 90%;
-        padding: 30px;
+#reviewsList, #taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review, .task {
+    padding: 15px;
+    border-left: 5px solid #6c5ce7;
+    background: #f1f2f6;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+/* ==========================
+   FOOTER (optional)
+========================== */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #636e72;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav a, nav button {
+        margin: 10px 0;
     }
 }

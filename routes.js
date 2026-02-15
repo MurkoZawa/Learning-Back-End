@@ -1,85 +1,94 @@
 const express = require('express');
 const router = express.Router();
 const { getDB } = require('./db');
-const ObjectId = require('mongodb').ObjectId;
+const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authMiddleware = require('./middleware/authMiddleware');
 
-// --- REGISTRAZIONE ---
-router.post('/register', async (req, res) => {
+// ===== REGISTER =====
+router.post('/api/register', async (req, res) => {
     try {
+        const db = getDB();
         const { username, email, password } = req.body;
-        const db = getDB();
+        const existing = await db.collection('users').findOne({ username });
+        if (existing) return res.status(400).json({ success: false, message: "Username già esistente" });
 
-        const existingUser = await db.collection('users').findOne({ email });
-        if (existingUser) return res.status(400).json({ message: 'Email già registrata' });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db.collection('users').insertOne({ username, email, password: hashedPassword });
 
-        await db.collection('users').insertOne({ username, email, password });
-        res.json({ message: 'Utente registrato con successo' });
+        res.status(201).json({ success: true, message: "Utente registrato con successo" });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ success: false, message: err.message });
     }
 });
 
-
-// --- LOGIN ---
-router.post('/login', async (req, res) => {
+// ===== LOGIN =====
+router.post('/api/login', async (req, res) => {
     try {
+        const db = getDB();
         const { username, password } = req.body;
-        const db = getDB();
-        const user = await db.collection('users').findOne({ username, password });
-        if (!user) return res.status(400).json({ message: 'Invalid credentials' });
-        res.json({ message: 'Login successful' });
+        const user = await db.collection('users').findOne({ username });
+        if (!user) return res.status(400).json({ success: false, message: "Credenziali non valide" });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ success: false, message: "Credenziali non valide" });
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.json({ success: true, message: "Login effettuato con successo", token });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ success: false, message: err.message });
     }
 });
 
-// --- CREA TASK ---
-router.post('/tasks', async (req, res) => {
+// ===== TASKS =====
+router.get('/api/tasks', authMiddleware, async (req, res) => {
     try {
         const db = getDB();
-        const task = req.body;
-        await db.collection('tasks').insertOne(task);
-        res.json({ message: 'Task creato con successo', task });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// --- GET TUTTI I TASK ---
-router.get('/tasks', async (req, res) => {
-    try {
-        const db = getDB();
-        const tasks = await db.collection('tasks').find().toArray();
+        const tasks = await db.collection('tasks')
+            .find({ user: new ObjectId(req.user.userId) })
+            .toArray();
         res.json(tasks);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+    } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// --- PUT TASK ---
-router.put('/tasks/:id', async (req, res) => {
+router.post('/api/tasks', authMiddleware, async (req, res) => {
     try {
         const db = getDB();
-        const id = req.params.id;
-        const update = req.body;
-        await db.collection('tasks').updateOne({ _id: new ObjectId(id) }, { $set: update });
-        res.json({ message: 'Task aggiornato' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+        const { name, description } = req.body;
+        await db.collection('tasks').insertOne({
+            name,
+            description,
+            user: new ObjectId(req.user.userId),
+            createdAt: new Date()
+        });
+        res.status(201).json({ success: true, message: "Task creata" });
+    } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// --- DELETE TASK ---
-router.delete('/tasks/:id', async (req, res) => {
+// ===== REVIEWS =====
+router.get('/api/reviews', authMiddleware, async (req, res) => {
     try {
         const db = getDB();
-        const id = req.params.id;
-        await db.collection('tasks').deleteOne({ _id: new ObjectId(id) });
-        res.json({ message: 'Task eliminato' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+        const reviews = await db.collection('reviews')
+            .find({ user: new ObjectId(req.user.userId) })
+            .toArray();
+        res.json(reviews);
+    } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
+router.post('/api/reviews', authMiddleware, async (req, res) => {
+    try {
+        const db = getDB();
+        const { name, text } = req.body;
+        await db.collection('reviews').insertOne({
+            name,
+            text,
+            user: new ObjectId(req.user.userId),
+            createdAt: new Date()
+        });
+        res.status(201).json({ success: true, message: "Recensione salvata" });
+    } catch (err) { res.status(500).json({ message: err.message }); }
+});
 
 module.exports = router;
