@@ -1,3 +1,40 @@
-1) Creare .js con PUT, POST, GET, DELETE. POST serve per inserire un elemento, PUT per modificarlo, GET per prelevarlo, DELETE per cancellarlo.
-2) Connettersi a MongoDB specificando la corretta connessione e aprire un terminale immettendo node todo.js. Per osservare modifiche, premere su Refresh documents.
-3) Aprire un altro terminale per fare le curl. Le richieste HTTP e le POST verranno visualizzate nei documents.
+**Imposta nuovo repo Git:**
+
+git init
+
+git remote add origin https://github.com/MurkoZawa/\[...]
+
+git remote set-url origin https://github.com/MurkoZawa/\[...]
+
+git branch -M main
+
+git add .
+
+git commit -m "\[…]"
+
+git push -u origin main (che poi diventerà solo git push)
+
+
+
+**Modifica commit:**
+
+git rebase -i HEAD~2 (o quanti commit vuoi modificare)
+
+premi i
+
+dove c'è *pick* cambia con *squash* per unire o con *drop* per eliminare
+
+premi ESC
+
+premi :wq due volte
+
+git push origin main --force
+
+
+
+**Avvia server:**
+
+node server.js (se non hai implementato ancora Docker)
+
+docker compose up (--build se hai fatto modifiche ai dockerfile)
+
